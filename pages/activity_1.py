@@ -1,2 +1,2 @@
 import streamlit as st
-st.title("may homework naman liwat")
+st.title("kagahod kay michael rey tuando")
