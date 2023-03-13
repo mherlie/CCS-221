@@ -2,9 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-import Exercises.TASK_1 as task1
-import Exercises.TASK_2 as task2
-import Exercises.TASK_3 as task3
+import pages.Activity 1 as task1
 
 def main():
     st.title("Midterm Exam in CCS221")
