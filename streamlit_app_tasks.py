@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
-import pages.Activity_1 as task1
+import pages.Activity_1 as activity1
 
 def main():
     st.title("Midterm Exam in CCS221")
@@ -48,20 +48,4 @@ def main():
     st.subheader("Midpoint Line Algorithm")
     st.pyplot(task1.midpoint(_task1_x0, _task1_y0, _task1_x1, _task1_y1, 'ro'))
     
-    st.header("Task 2")
-    st.subheader("Change a pixel's color")
-    st.pyplot(task2.change(_task2_x, _task2_y, _task2_hue))
     
-    st.header("Task 3")
-    st.subheader("Image Transformations")
-    st.write('File Path: ', _task3_filepath)
-    task3_image = cv2.cvtColor(cv2.imread(_task3_filepath), cv2.COLOR_BGR2RGB)
-    st.write('Original Image:')
-    st.pyplot(task3.visualize(task3_image))
-    st.write('Image Transformations: ', *_task3_transformations)
-    
-    if st.button("Exit"):
-        st.stop()
-
-if  __name__ == "__main__":
-    main()
