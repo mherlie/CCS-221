@@ -31,14 +31,14 @@ def main():
         _act3_translationy = st.sidebar.slider('Y Translation', 0, 1000)
         
     if 'reflect' in _act3_transformations:
-        _task3_reflectionx = st.sidebar.checkbox('Reflect along x axis')
-        _task3_reflectiony = st.sidebar.checkbox('Reflect along y axis')
+        _act3_reflectionx = st.sidebar.checkbox('Reflect along x axis')
+        _act3_reflectiony = st.sidebar.checkbox('Reflect along y axis')
         
     if 'rotate' in _act3_transformations:
         _act3_rotation = st.sidebar.slider('Rotation', -360, 360, 0)
         
     if 'scale' in _act3_transformations:
-        _task3_scale = st.sidebar.slider('Scale', 0, 5, 1)
+        _act3_scale = st.sidebar.slider('Scale', 0, 5, 1)
         
     if 'shear' in _act3_transformations:
         _act3_shearx = st.sidebar.slider('X Shear', 0, 5, 1)
