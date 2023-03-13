@@ -24,7 +24,7 @@ def change(x, y, color):
         for j in range(len(_arr_2d)):
             _arr_2d[x][y] = color
 
-    img = plt.imshow(_arr_2d, cmap='autumn', interpolation='none')
+    img = plt.imshow(_arr_2d, cmap='Pastel2', interpolation='none')
     img.set_clim([0, 100])
     plt.colorbar()
     
