@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import pages.Activity_1 as act1
 import pages.Activity_2 as act2
+import pages.Activity_3 as act3
 
 
 def main():
@@ -21,27 +22,27 @@ def main():
                                      st.sidebar.slider('Hue', 0, 100, 50)
                                     
     st.sidebar.header("Image transformations")
-    _task3_filepath = st.sidebar.text_input('Enter file path: ', 'Exercises/images/img1.webp')
-    _task3_transformations = st.sidebar.multiselect('Select tranformations to apply: ', \
+    _act3_filepath = st.sidebar.text_input('Enter file path: ', 'Exercises/images/img1.webp')
+    _act3_transformations = st.sidebar.multiselect('Select tranformations to apply: ', \
                             ['translate', 'rotate', 'reflect', 'scale', 'shear'])
 
-    if 'translate' in _task3_transformations:
-        _task3_translationx = st.sidebar.slider('X Translation', 0, 1000)
-        _task3_translationy = st.sidebar.slider('Y Translation', 0, 1000)
+    if 'translate' in _act3_transformations:
+        _act3_translationx = st.sidebar.slider('X Translation', 0, 1000)
+        _act3_translationy = st.sidebar.slider('Y Translation', 0, 1000)
         
-    if 'reflect' in _task3_transformations:
+    if 'reflect' in _act3_transformations:
         _task3_reflectionx = st.sidebar.checkbox('Reflect along x axis')
         _task3_reflectiony = st.sidebar.checkbox('Reflect along y axis')
         
-    if 'rotate' in _task3_transformations:
-        _task3_rotation = st.sidebar.slider('Rotation', -360, 360, 0)
+    if 'rotate' in _act3_transformations:
+        _act3_rotation = st.sidebar.slider('Rotation', -360, 360, 0)
         
-    if 'scale' in _task3_transformations:
+    if 'scale' in _act3_transformations:
         _task3_scale = st.sidebar.slider('Scale', 0, 5, 1)
         
-    if 'shear' in _task3_transformations:
-        _task3_shearx = st.sidebar.slider('X Shear', 0, 5, 1)
-        _task3_sheary = st.sidebar.slider('Y Shear', 0, 5, 1)
+    if 'shear' in _act3_transformations:
+        _act3_shearx = st.sidebar.slider('X Shear', 0, 5, 1)
+        _act3_sheary = st.sidebar.slider('Y Shear', 0, 5, 1)
                 
     st.header("Activity 1")
     st.subheader("DDA Line Algorithm")
@@ -55,13 +56,13 @@ def main():
     st.subheader("Change a pixel's color")
     st.pyplot(act2.change(_act2_x, _act2_y, _act2_hue))
     
-    st.header("Task 3")
+    st.header("Activity 3")
     st.subheader("Image Transformations")
-    st.write('File Path: ', _task3_filepath)
-    task3_image = cv2.cvtColor(cv2.imread(_task3_filepath), cv2.COLOR_BGR2RGB)
+    st.write('File Path: ', _act3_filepath)
+    act3_image = cv2.cvtColor(cv2.imread(_act3_filepath), cv2.COLOR_BGR2RGB)
     st.write('Original Image:')
-    st.pyplot(task3.visualize(task3_image))
-    st.write('Image Transformations: ', *_task3_transformations)
+    st.pyplot(act3.visualize(act3_image))
+    st.write('Image Transformations: ', *_act3_transformations)
     
     if st.button("Exit"):
         st.stop()
