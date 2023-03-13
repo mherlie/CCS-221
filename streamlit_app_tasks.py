@@ -48,4 +48,10 @@ def main():
     st.subheader("Midpoint Line Algorithm")
     st.pyplot(task1.midpoint(_task1_x0, _task1_y0, _task1_x1, _task1_y1, 'ro'))
     
+      if st.button("Exit"):
+        st.stop()
+
+if  __name__ == "__main__":
+    main()
+    
     
