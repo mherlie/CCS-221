@@ -9,7 +9,7 @@ def main():
     st.title("Midterm Exam in CCS221")
     
     st.sidebar.header("Line Algorithm Parameters")
-    _task1_x0, _task1_y0, _task1_x1, _task1_y1 = st.sidebar.slider('Starting X', 1, 1000), \
+    _act1_x0, _act1_y0, _act1_x1, _act1_y1 = st.sidebar.slider('Starting X', 1, 1000), \
                      st.sidebar.slider('Starting Y', 1, 1000), \
                      st.sidebar.slider('Ending X', 1, 1000, 100), \
                      st.sidebar.slider('Ending Y', 1, 1000, 100)
@@ -42,13 +42,13 @@ def main():
         _task3_shearx = st.sidebar.slider('X Shear', 0, 5, 1)
         _task3_sheary = st.sidebar.slider('Y Shear', 0, 5, 1)
                 
-    st.header("Task 1")
+    st.header("Activity 1")
     st.subheader("DDA Line Algorithm")
-    st.pyplot(task1.DDALine(_task1_x0, _task1_y0, _task1_x1, _task1_y1, 'ro'))
+    st.pyplot(act1.DDALine(_act1_x0, _act1_y0, _act1_x1, _act1_y1, 'ro'))
     st.subheader("Bresenham's Line Algorithm")
-    st.pyplot(task1.Bres(_task1_x0, _task1_y0, _task1_x1, _task1_y1, 'ro'))
+    st.pyplot(act1.Bres(_act1_x0, _act1_y0, _act1_x1, _act1_y1, 'ro'))
     st.subheader("Midpoint Line Algorithm")
-    st.pyplot(task1.midpoint(_task1_x0, _task1_y0, _task1_x1, _task1_y1, 'ro'))
+    st.pyplot(act1.midpoint(_act1_x0, _act1_y0, _act1_x1, _act1_y1, 'ro'))
     
     st.header("Task 2")
     st.subheader("Change a pixel's color")
