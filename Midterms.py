@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import pages.Activity_1 as act1
+import pages.Activity_2 as act2
 
 
 def main():
@@ -15,7 +16,7 @@ def main():
                      st.sidebar.slider('Ending Y', 1, 1000, 100)
 
     st.sidebar.header("Change Pixel Hue Parameters")
-    _task2_x, _task2_y, _task2_hue = st.sidebar.slider('X coordinate', 0, 2, 0, 1), \
+    _act2_x, _act2_y, _act2_hue = st.sidebar.slider('X coordinate', 0, 2, 0, 1), \
                                      st.sidebar.slider('Y coordinate', 0, 2, 0, 1), \
                                      st.sidebar.slider('Hue', 0, 100, 50)
                                     
@@ -50,9 +51,9 @@ def main():
     st.subheader("Midpoint Line Algorithm")
     st.pyplot(act1.midpoint(_act1_x0, _act1_y0, _act1_x1, _act1_y1, 'ro'))
     
-    st.header("Task 2")
+    st.header("Activity 2")
     st.subheader("Change a pixel's color")
-    st.pyplot(task2.change(_task2_x, _task2_y, _task2_hue))
+    st.pyplot(act2.change(_act2_x, _act2_y, _act2_hue))
     
     st.header("Task 3")
     st.subheader("Image Transformations")
