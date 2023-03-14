@@ -8,7 +8,7 @@ import pages.Activity_3 as act3
 
 
 def main():
-    st.title("Midterm Exam in CCS221")
+    st.title("Group Se7en CCS-221")
     
     st.sidebar.header("Line Algorithm Parameters")
     _act1_x0, _act1_y0, _act1_x1, _act1_y1 = st.sidebar.slider('Starting X', 1, 1000), \
