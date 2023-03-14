@@ -22,7 +22,7 @@ def main():
                                      st.sidebar.slider('Hue', 0, 100, 50)
                                     
     st.sidebar.header("Image transformations")
-    _act3_filepath = st.sidebar.text_input('Enter file path: ', 'Exercises/images/img1.webp')
+    _act3_filepath = st.sidebar.text_input('Enter file path: ', 'pages/background4.jpg')
     _act3_transformations = st.sidebar.multiselect('Select tranformations to apply: ', \
                             ['translate', 'rotate', 'reflect', 'scale', 'shear'])
 
