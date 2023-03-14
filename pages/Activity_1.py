@@ -14,13 +14,10 @@ def DDALine(x1, y1, x2, y2, color):
     yinc = float(dy / steps)
 
     for i in range (0, steps + 1):
-        plt.plot(round(x1), round(y1), color, marker='s', markersize=5) # marker='s', markersize=5
-        # if(i == round(steps+1)):
-        #     plt.plot(round(x1), round(y1), color, marker='o', markersize=25) # marker='0', markersize=25
+        plt.plot(round(x1), round(y1), color, marker='s', markersize=5) 
         x1 += xinc
         y1 += yinc
-    # plt.xlim(0, 100)
-    # plt.ylim(0, 100)
+
     plt.plot(round((x1 + x)/2), round((y1 + y)/2), 'bo', markersize=5)
     
     return fig
@@ -40,8 +37,7 @@ def Bres(x1,y1,x2,y2, color):
         x2, y2 = y2, x2
 
     p = 2*dy - dx
-    # print(f"x = {x}, y = {y}")
-    # Initialize the plotting points
+   
     xcoordinates = [x]
     ycoordinates = [y]
 
@@ -54,7 +50,7 @@ def Bres(x1,y1,x2,y2, color):
 
         x = x + 1 if x < x2 else x - 1
 
-        # print(f"x = {x}, y = {y}")
+        
         xcoordinates.append(x)
         ycoordinates.append(y)
 
@@ -69,29 +65,25 @@ def midpoint(x1, y1, x2, y2, color):
     dx = x2 - x1
     dy = y2 - y1
 
-    # Initialize the decision parameter
     d  = dy - (dx/2)
     x = x1
     y = y1
 
-    # Initialize the plotting points
     xcoordinates = [x]
     ycoordinates = [y]
 
     while (x<x2):
         x = x + 1
-        # East is Chosen
         if (d<0):
             d = d + dy
 
-        # North East is Chosen
         else:
             d = d + (dy - dx)
             y = y + 1
 
         xcoordinates.append(x)
         ycoordinates.append(y)
-        # print(f"x = {x}, y = {y}")
+      
     plt.plot(xcoordinates, ycoordinates, color, marker='s', markersize=5)
 
     return fig
