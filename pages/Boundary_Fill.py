@@ -32,3 +32,4 @@ if st.button("Apply Boundary Fill"):
     fig.set_clim([0, 1])
     plt.colorbar()
     st.pyplot()
+    st.set_option('deprecation.showPyplotGlobalUse', False)
