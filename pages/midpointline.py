@@ -1,6 +1,8 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
+st.title("Midpoint Line")
+
 # Midpoint Line Algorithm
 st.subheader("Midpoint Line Algorithm")
 st.sidebar.subheader("Midpoint Line Algorithm values")
