@@ -2,34 +2,45 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-st.title("Boundary Fill Algorithm")
+# Define the boundary fill algorithm
+def boundary_fill(x, y, fill_color, boundary_color, img):
+    if img[x][y] != boundary_color and img[x][y] != fill_color:
+        img[x][y] = fill_color
+        boundary_fill(x+1, y, fill_color, boundary_color, img)
+        boundary_fill(x-1, y, fill_color, boundary_color, img)
+        boundary_fill(x, y+1, fill_color, boundary_color, img)
+        boundary_fill(x, y-1, fill_color, boundary_color, img)
 
-# Initial 2D array
-two_d_arr = np.array([[1, 0, 1], [0, 0, 0], [1, 0, 1]])
+# Define the main function
+def main():
+    # Define the initial image array
+    img = np.array([[1, 0, 1],
+                    [0, 0, 0],
+                    [1, 0, 1]])
 
-# Define boundary fill function
-def boundary_fill(x, y, fill_color, boundary_color):
-    if two_d_arr[x][y] != boundary_color and two_d_arr[x][y] != fill_color:
-        two_d_arr[x][y] = fill_color
-        if x > 0:
-            boundary_fill(x-1, y, fill_color, boundary_color)
-        if y > 0:
-            boundary_fill(x, y-1, fill_color, boundary_color)
-        if x < len(two_d_arr)-1:
-            boundary_fill(x+1, y, fill_color, boundary_color)
-        if y < len(two_d_arr)-1:
-            boundary_fill(x, y+1, fill_color, boundary_color)
+    # Define the default fill and boundary colors
+    fill_color = 2
+    boundary_color = 1
 
-# Streamlit UI
-x_boundary, y_boundary = st.slider("Select starting point for boundary fill", 0, 2, (1, 1))
-fill_color = st.slider("Select fill color", 0, 1, 1)
-boundary_color = st.slider("Select boundary color", 0, 1, 0)
+    # Get the user inputs for the row and column indices
+    row = st.number_input("Row (0-2): ", 0, 2, 0)
+    col = st.number_input("Column (0-2): ", 0, 2, 0)
 
-# Run boundary fill function on click
-if st.button("Apply Boundary Fill"):
-    boundary_fill(x_boundary, y_boundary, fill_color, boundary_color)
-    fig = plt.imshow(two_d_arr, interpolation='none', cmap='plasma')
-    fig.set_clim([0, 1])
-    plt.colorbar()
-    st.pyplot()
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+    # Set the fill color for the selected pixel
+    img_copy = np.copy(img)
+    boundary_fill(row, col, fill_color, boundary_color, img_copy)
+
+    # Plot the initial and modified images
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    ax1.imshow(img, cmap='gray')
+    ax1.set_title("Original Image")
+    ax1.axis('off')
+    ax2.imshow(img_copy, cmap='gray')
+    ax2.set_title("Boundary Fill Image")
+    ax2.axis('off')
+
+    # Show the plot
+    st.pyplot(fig)
+
+if __name__ == '__main__':
+    main()
