@@ -2,8 +2,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 # Bresenham's Line Algorithm
-st.subheader("Bresenham's Line")
-st.sidebar.subheader("Bresenham's Line Values")
+st.subheader("Bresenham's Line Algorithm")
+st.sidebar.subheader("Bresenham's Line values")
 x1, x2, y1, y2 = st.sidebar.slider('x1', 0, 15, 1),\
                  st.sidebar.slider('x2', 0, 15, 3),\
                  st.sidebar.slider('y1', 0, 15, 7),\
