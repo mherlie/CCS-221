@@ -1,6 +1,8 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
+st.title("DDA Line")
+
 # DDALine algorithm
 st.subheader("DDA Line Algorithm")
 st.sidebar.subheader("DDA Line values")
