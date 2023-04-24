@@ -1,6 +1,8 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
+st.title("Bresenham's Line")
+
 # Bresenham's Line Algorithm
 st.subheader("Bresenham's Line Algorithm")
 st.sidebar.subheader("Bresenham's Line values")
