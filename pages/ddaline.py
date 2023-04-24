@@ -2,8 +2,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 # DDALine algorithm
-st.subheader("DDA Line")
-st.sidebar.subheader("DDA Line Values")
+st.subheader("DDA Line Algorithm")
+st.sidebar.subheader("DDA Line values")
 x1_DDALine, x2_DDALine, y1_DDALine, y2_DDALine = st.sidebar.slider('x1 for DDALine', 0, 15, 1),\
                                                 st.sidebar.slider('x2 for DDALine', 0, 15, 3),\
                                                 st.sidebar.slider('y1 for DDALine', 0, 15, 7),\
