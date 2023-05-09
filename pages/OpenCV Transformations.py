@@ -1,6 +1,6 @@
 import streamlit as st
-import numpy as np
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
 
 def translation(img_, rows, cols):
@@ -15,26 +15,26 @@ def rotation(img_, rows, cols):
     img_rotated = np.float32([[np.cos(angle), -(np.sin(angle)), 0],
                             [np.sin(angle), np.cos(angle), 0],
                             [0, 0, 1]])
-    img_rotated = cv2.warpPerspective(img_, img_rotated, (int(cols), int(rows)))
+    img_rotated = cv2.warpPerspective(img_, img_rotated, (cols, rows))
     return img_rotated
 
 def scaling(img_, rows, cols):
     img_scaled = np.float32(([1.5, 0, 0],
                              [0, 1.8, 0],
                              [0, 0, 1]))
-    img_scaled = cv2.warpPerspective(img_, img_scaled, (cols*2, rows*2))
+    img_scaled = cv2.warpPerspective(img_, img_scaled, (int(cols*2), int(rows*2)))
     return img_scaled
 
 def reflection(img_, rows, cols):
     img_reflected = np.float32([[-1, 0, cols],
                                 [0, 1, 0],
                                 [0, 0, 1]])
-    img_reflected = cv2.warpPerspective(img_, img_reflected, (int(cols), int(rows)))
+    img_reflected = cv2.warpPerspective(img_, img_reflected, (cols, rows))
     return img_reflected
 
 def shear(img_, rows, cols):
-    img_sheared = np.float32([[1, 0, 0],
-                              [0.5, 1, 0],
+    img_sheared = np.float32([[1, 0.5, 0],
+                              [0, 1, 0],
                               [0, 0, 1]])
     img_sheared = cv2.warpPerspective(img_, img_sheared, (int(cols*1.5), int(rows*1.5)))
     return img_sheared
