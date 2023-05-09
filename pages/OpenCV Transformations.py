@@ -1,62 +1,51 @@
 import streamlit as st
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image, ImageOps, ImageEnhance
 
-def translation(img_, rows, cols):
-    img_translated = np.float32([[1, 0, 100],
-                                [0, 1, 50],
-                                [0, 0, 1]])
-    img_translated = cv2.warpPerspective(img_, img_translated, (cols, rows))
-    return img_translated
+def translation(image):
+    # Apply translation transformation to the image
+    translated_image = image.transform(
+        image.size, Image.AFFINE, (1, 0, 100, 0, 1, 50), resample=Image.BICUBIC
+    )
+    return translated_image
 
-def rotation(img_, rows, cols):
-    angle = np.radians(10)
-    img_rotated = np.float32([[np.cos(angle), -(np.sin(angle)), 0],
-                            [np.sin(angle), np.cos(angle), 0],
-                            [0, 0, 1]])
-    img_rotated = cv2.warpPerspective(img_, img_rotated, (cols, rows))
-    return img_rotated
+def rotation(image):
+    # Apply rotation transformation to the image
+    rotated_image = image.rotate(10, resample=Image.BICUBIC)
+    return rotated_image
 
-def scaling(img_, rows, cols):
-    img_scaled = np.float32(([1.5, 0, 0],
-                             [0, 1.8, 0],
-                             [0, 0, 1]))
-    img_scaled = cv2.warpPerspective(img_, img_scaled, (int(cols*2), int(rows*2)))
-    return img_scaled
+def scaling(image):
+    # Apply scaling transformation to the image
+    scaled_image = image.resize((int(image.width * 1.5), int(image.height * 1.8)), resample=Image.BICUBIC)
+    return scaled_image
 
-def reflection(img_, rows, cols):
-    img_reflected = np.float32([[-1, 0, cols],
-                                [0, 1, 0],
-                                [0, 0, 1]])
-    img_reflected = cv2.warpPerspective(img_, img_reflected, (cols, rows))
-    return img_reflected
+def reflection(image):
+    # Apply reflection transformation to the image
+    reflected_image = ImageOps.mirror(image)
+    return reflected_image
 
-def shear(img_, rows, cols):
-    img_sheared = np.float32([[1, 0.5, 0],
-                              [0, 1, 0],
-                              [0, 0, 1]])
-    img_sheared = cv2.warpPerspective(img_, img_sheared, (int(cols*1.5), int(rows*1.5)))
-    return img_sheared
+def shear(image):
+    # Apply shear transformation to the image
+    sheared_image = image.transform(
+        image.size, Image.AFFINE, (1, 0.5, 0, 0, 1, 0), resample=Image.BICUBIC
+    )
+    return sheared_image
 
-def apply_transform(img_, transform_fn):
-    rows, cols, dims = img_.shape
-    img_transformed = transform_fn(img_, rows, cols)
+def apply_transform(image, transform_fn):
+    img_transformed = transform_fn(image)
     return img_transformed
 
-def process_image(file_name, transform_fn):
-    img_test = cv2.imread(file_name)
-    img_test = cv2.cvtColor(img_test, cv2.COLOR_BGR2RGB)
-    img_transformed = apply_transform(img_test, transform_fn)
+def process_image(file):
+    img = Image.open(file)
+    img_transformed = apply_transform(img, transform_fn)
     return img_transformed
 
 def main():
     st.title("Image Transformation")
 
-    file_name = st.text_input("Input File Name:")
+    file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
     transform_type = st.selectbox("Select Transformation", ["Translation", "Rotation", "Scale", "Reflect", "Shear"])
-    transform_fn = None
 
+    transform_fn = None
     if transform_type == "Translation":
         transform_fn = translation
     elif transform_type == "Rotation":
@@ -68,12 +57,11 @@ def main():
     elif transform_type == "Shear":
         transform_fn = shear
 
-    if file_name and transform_fn:
-        img_transformed = process_image(file_name, transform_fn)
-
-        st.image(img_transformed, use_column_width=True)
+    if file is not None and transform_fn is not None:
+        img_transformed = process_image(file)
+        st.image(img_transformed, caption="Transformed Image", use_column_width=True)
     else:
-        st.warning("Please enter a file name and select a transformation type.")
+        st.warning("Please upload an image and select a transformation type.")
 
 if __name__ == "__main__":
     main()
