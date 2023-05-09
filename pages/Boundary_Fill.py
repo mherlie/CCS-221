@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 def flood_fill(matrix, start_pos, target_color, replacement_color):
     rows, cols = matrix.shape
     stack = [start_pos]
@@ -31,7 +30,6 @@ def flood_fill(matrix, start_pos, target_color, replacement_color):
 
     return matrix
 
-
 # Streamlit app
 def main():
     st.title("Boundary-fill / Flood-fill Algorithm")
@@ -41,8 +39,9 @@ def main():
 
     # Display the original matrix
     st.subheader("Original Matrix")
-    plt.imshow(default_matrix, interpolation='none', cmap='plasma')
-    st.pyplot()
+    fig, ax = plt.subplots()
+    ax.imshow(default_matrix, interpolation='none', cmap='plasma')
+    st.pyplot(fig)
 
     # Get user inputs
     start_pos = st.text_input("Enter the starting position (format: row, column)", "0, 0")
@@ -56,11 +55,12 @@ def main():
 
         # Display the filled matrix
         st.subheader("Filled Matrix")
-        plt.imshow(filled_matrix, interpolation='none', cmap='plasma')
-        st.pyplot()
+        fig, ax = plt.subplots()
+        ax.imshow(filled_matrix, interpolation='none', cmap='plasma')
+        st.pyplot(fig)
     except ValueError:
         st.error("Invalid input for starting position. Please enter row and column as integers separated by a comma.")
 
-
 if __name__ == "__main__":
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     main()
