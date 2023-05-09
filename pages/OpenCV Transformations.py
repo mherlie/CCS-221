@@ -1,83 +1,79 @@
 import streamlit as st
-import cv2
 import numpy as np
-from PIL import Image
+import cv2
 import matplotlib.pyplot as plt
 
+def translation(img_, rows, cols):
+    img_translated = np.float32([[1, 0, 100],
+                                [0, 1, 50],
+                                [0, 0, 1]])
+    img_translated = cv2.warpPerspective(img_, img_translated, (cols, rows))
+    return img_translated
 
-def translation(img, x, y):
-    rows, cols, _ = img.shape
-    M = np.float32([[1, 0, x], [0, 1, y]])
-    translated = cv2.warpAffine(img, M, (cols, rows))
-    return translated
+def rotation(img_, rows, cols):
+    angle = np.radians(10)
+    img_rotated = np.float32([[np.cos(angle), -(np.sin(angle)), 0],
+                            [np.sin(angle), np.cos(angle), 0],
+                            [0, 0, 1]])
+    img_rotated = cv2.warpPerspective(img_, img_rotated, (int(cols), int(rows)))
+    return img_rotated
 
+def scaling(img_, rows, cols):
+    img_scaled = np.float32(([1.5, 0, 0],
+                             [0, 1.8, 0],
+                             [0, 0, 1]))
+    img_scaled = cv2.warpPerspective(img_, img_scaled, (cols*2, rows*2))
+    return img_scaled
 
-def rotation(img, angle):
-    rows, cols, _ = img.shape
-    M = cv2.getRotationMatrix2D((cols/2, rows/2), angle, 1)
-    rotated = cv2.warpAffine(img, M, (cols, rows))
-    return rotated
+def reflection(img_, rows, cols):
+    img_reflected = np.float32([[-1, 0, cols],
+                                [0, 1, 0],
+                                [0, 0, 1]])
+    img_reflected = cv2.warpPerspective(img_, img_reflected, (int(cols), int(rows)))
+    return img_reflected
 
+def shear(img_, rows, cols):
+    img_sheared = np.float32([[1, 0, 0],
+                              [0.5, 1, 0],
+                              [0, 0, 1]])
+    img_sheared = cv2.warpPerspective(img_, img_sheared, (int(cols*1.5), int(rows*1.5)))
+    return img_sheared
 
-def scaling(img, fx, fy):
-    rows, cols, _ = img.shape
-    M = np.float32([[fx, 0, 0], [0, fy, 0], [0, 0, 1]])
-    scaled = cv2.warpPerspective(img, M, (cols, rows))
-    return scaled
+def apply_transform(img_, transform_fn):
+    rows, cols, dims = img_.shape
+    img_transformed = transform_fn(img_, rows, cols)
+    return img_transformed
 
-
-def reflection(img, axis):
-    rows, cols, _ = img.shape
-    if axis == 0:
-        M = np.float32([[-1, 0, cols], [0, 1, 0], [0, 0, 1]])
-    elif axis == 1:
-        M = np.float32([[1, 0, 0], [0, -1, rows], [0, 0, 1]])
-    reflected = cv2.warpPerspective(img, M, (cols, rows))
-    return reflected
-
-
-def flip(img, axis):
-    flipped = cv2.flip(img, axis)
-    return flipped
-
-
-def shear(img, factor):
-    rows, cols, _ = img.shape
-    M = np.float32([[1, factor, 0], [0, 1, 0], [0, 0, 1]])
-    sheared = cv2.warpPerspective(img, M, (int(cols+factor*rows), rows))
-    return sheared
-
-
-def apply_transform(img, transform, params):
-    if transform == 'Translation':
-        x, y = params
-        transformed = translation(img, x, y)
-    elif transform == 'Rotation':
-        angle = params
-        transformed = rotation(img, angle)
-    elif transform == 'Scaling':
-        fx, fy = params
-        transformed = scaling(img, fx, fy)
-    elif transform == 'Reflection':
-        axis = params
-        transformed = reflection(img, axis)
-    elif transform == 'Flip':
-        axis = params
-        transformed = flip(img, axis)
-    elif transform == 'Shear':
-        factor = params
-        transformed = shear(img, factor)
-    return transformed
-
+def process_image(file_name, transform_fn):
+    img_test = cv2.imread(file_name)
+    img_test = cv2.cvtColor(img_test, cv2.COLOR_BGR2RGB)
+    img_transformed = apply_transform(img_test, transform_fn)
+    return img_transformed
 
 def main():
-    st.title("Image Transformations")
-    img_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
-    if img_file is not None:
-        img = np.array(Image.open(img_file))
-        st.image(img, caption="Original Image", use_column_width=True)
+    st.title("Image Transformation")
 
-        transform = st.selectbox("Select a transformation", ["Translation", "Rotation", "Scaling", "Reflection", "Flip", "Shear"])
+    file_name = st.text_input("Input File Name:")
+    transform_type = st.selectbox("Select Transformation", ["Translation", "Rotation", "Scale", "Reflect", "Shear"])
+    transform_fn = None
 
-        if transform == 'Translation':
-            x = st.slider("x", -img.shape[1], img.shape[1], 
+    if transform_type == "Translation":
+        transform_fn = translation
+    elif transform_type == "Rotation":
+        transform_fn = rotation
+    elif transform_type == "Scale":
+        transform_fn = scaling
+    elif transform_type == "Reflect":
+        transform_fn = reflection
+    elif transform_type == "Shear":
+        transform_fn = shear
+
+    if file_name and transform_fn:
+        img_transformed = process_image(file_name, transform_fn)
+
+        st.image(img_transformed, use_column_width=True)
+    else:
+        st.warning("Please enter a file name and select a transformation type.")
+
+if __name__ == "__main__":
+    main()
