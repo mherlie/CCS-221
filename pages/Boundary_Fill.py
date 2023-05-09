@@ -2,35 +2,65 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Function to perform boundary fill
-def boundary_fill(x, y, fill_color, boundary_color, img):
-    if img[x][y] == boundary_color:
-        return
-    if img[x][y] != fill_color:
-        img[x][y] = fill_color
-        boundary_fill(x+1, y, fill_color, boundary_color, img)
-        boundary_fill(x-1, y, fill_color, boundary_color, img)
-        boundary_fill(x, y+1, fill_color, boundary_color, img)
-        boundary_fill(x, y-1, fill_color, boundary_color, img)
 
-# Create a 2D array as the initial image
-two_d_arr = np.array([[1, 0, 1],
-                      [0, 0, 0],
-                      [1, 0, 1]])
+def flood_fill(matrix, start_pos, target_color, replacement_color):
+    rows, cols = matrix.shape
+    stack = [start_pos]
+    visited = set()
 
-# Set the default values for user inputs
-column = st.sidebar.number_input("Column (0-2):", min_value=0, max_value=2, value=0)
-row = st.sidebar.number_input("Row (0-2):", min_value=0, max_value=2, value=0)
-fill_color = st.sidebar.number_input("Fill color:", min_value=0, max_value=1, value=1)
+    while stack:
+        x, y = stack.pop()
+        if (x, y) in visited or matrix[x, y] != target_color:
+            continue
 
-# Set the boundary color as the complement of the fill color
-boundary_color = 1 if fill_color == 0 else 0
+        matrix[x, y] = replacement_color
+        visited.add((x, y))
 
-# Perform boundary fill
-boundary_fill(row, column, fill_color, boundary_color, two_d_arr)
+        # Check top
+        if x > 0:
+            stack.append((x - 1, y))
+        # Check left
+        if y > 0:
+            stack.append((x, y - 1))
+        # Check right
+        if y < cols - 1:
+            stack.append((x, y + 1))
+        # Check bottom
+        if x < rows - 1:
+            stack.append((x + 1, y))
 
-# Display the resulting image
-fig, ax = plt.subplots()
-ax.imshow(two_d_arr, interpolation='none', cmap='plasma')
-ax.axis('off')
-st.pyplot(fig)
+    return matrix
+
+
+# Streamlit app
+def main():
+    st.title("Boundary-fill / Flood-fill Algorithm")
+
+    # Create a default example matrix
+    default_matrix = np.array([[1, 0, 1], [0, 0, 0], [1, 0, 1]])
+
+    # Display the original matrix
+    st.subheader("Original Matrix")
+    plt.imshow(default_matrix, interpolation='none', cmap='plasma')
+    st.pyplot()
+
+    # Get user inputs
+    start_pos = st.text_input("Enter the starting position (format: row, column)", "0, 0")
+    target_color = st.number_input("Enter the target color", value=1)
+    replacement_color = st.number_input("Enter the replacement color", value=2)
+
+    # Process user inputs
+    try:
+        row, col = map(int, start_pos.strip().split(","))
+        filled_matrix = flood_fill(default_matrix.copy(), (row, col), target_color, replacement_color)
+
+        # Display the filled matrix
+        st.subheader("Filled Matrix")
+        plt.imshow(filled_matrix, interpolation='none', cmap='plasma')
+        st.pyplot()
+    except ValueError:
+        st.error("Invalid input for starting position. Please enter row and column as integers separated by a comma.")
+
+
+if __name__ == "__main__":
+    main()
