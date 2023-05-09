@@ -2,45 +2,35 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the boundary fill algorithm
+# Function to perform boundary fill
 def boundary_fill(x, y, fill_color, boundary_color, img):
-    if img[x][y] != boundary_color and img[x][y] != fill_color:
+    if img[x][y] == boundary_color:
+        return
+    if img[x][y] != fill_color:
         img[x][y] = fill_color
         boundary_fill(x+1, y, fill_color, boundary_color, img)
         boundary_fill(x-1, y, fill_color, boundary_color, img)
         boundary_fill(x, y+1, fill_color, boundary_color, img)
         boundary_fill(x, y-1, fill_color, boundary_color, img)
 
-# Define the main function
-def main():
-    # Define the initial image array
-    img = np.array([[1, 0, 1],
-                    [0, 0, 0],
-                    [1, 0, 1]])
+# Create a 2D array as the initial image
+two_d_arr = np.array([[1, 0, 1],
+                      [0, 0, 0],
+                      [1, 0, 1]])
 
-    # Define the default fill and boundary colors
-    fill_color = 2
-    boundary_color = 1
+# Set the default values for user inputs
+column = st.sidebar.number_input("Column (0-2):", min_value=0, max_value=2, value=0)
+row = st.sidebar.number_input("Row (0-2):", min_value=0, max_value=2, value=0)
+fill_color = st.sidebar.number_input("Fill color:", min_value=0, max_value=1, value=1)
 
-    # Get the user inputs for the row and column indices
-    row = st.number_input("Row (0-2): ", 0, 2, 0)
-    col = st.number_input("Column (0-2): ", 0, 2, 0)
+# Set the boundary color as the complement of the fill color
+boundary_color = 1 if fill_color == 0 else 0
 
-    # Set the fill color for the selected pixel
-    img_copy = np.copy(img)
-    boundary_fill(row, col, fill_color, boundary_color, img_copy)
+# Perform boundary fill
+boundary_fill(row, column, fill_color, boundary_color, two_d_arr)
 
-    # Plot the initial and modified images
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
-    ax1.imshow(img, cmap='gray')
-    ax1.set_title("Original Image")
-    ax1.axis('off')
-    ax2.imshow(img_copy, cmap='gray')
-    ax2.set_title("Boundary Fill Image")
-    ax2.axis('off')
-
-    # Show the plot
-    st.pyplot(fig)
-
-if __name__ == '__main__':
-    main()
+# Display the resulting image
+fig, ax = plt.subplots()
+ax.imshow(two_d_arr, interpolation='none', cmap='plasma')
+ax.axis('off')
+st.pyplot(fig)
