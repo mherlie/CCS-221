@@ -101,7 +101,7 @@ def tri_prism(bottom_lower=(0, 0, 0), side_length=5, side=4, two=2):
 
 def main():
     st.title("3D Object Transformation")
-    st.sidebar.header("Image Transformations")
+    st.sidebar.header("Transformations")
     object_types = ["Rectangle", "Right Triangle", "Triangular Prism"]
     object_type = st.sidebar.selectbox("Select Object Type", object_types)
 
